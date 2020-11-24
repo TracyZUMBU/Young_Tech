@@ -1,12 +1,12 @@
 // Packages
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   BrowserRouter as Router,
   Redirect,
   Route,
   Switch,
 } from "react-router-dom";
-import decode from "jwt-decode";
+
 // Components
 import Homepage from "./pages/Homepage";
 import SignIn from "./pages/SignIn";

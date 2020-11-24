@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useHistory, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Formik, Form} from "formik";
 import * as Yup from "yup";
 import axios from "axios";
@@ -8,8 +8,10 @@ import axios from "axios";
 import FormikControl from "../components/formik/FormikControl";
 import Button from "../components/Button";
 
+import { goToUserProfilePage } from "../services/services"
+
 const SignIn = () => {
-  let history = useHistory();
+
   let msgForFailingLogIn;
   const errormsg = "Obligatoire !"; //mettre dans state contexte
 
@@ -27,21 +29,21 @@ const SignIn = () => {
   });
 
   // function that redirect user when successful login
-  const goToUserPage = (userType, userID) => {
-    switch (userType) {
-      case "admin":
-        history.push(`/admin/${userID}`);
-        break;
-      case "user":
-        history.push(`/user/${userID}`);
-        break;
-      case "compagny":
-        history.push(`/compagny/${userID}`);
-        break;
-      default:
-        return <Redirect to={"/"} />;
-    }
-  };
+  // const goToUserProfilePage = (userType, userID) => {
+  //   switch (userType) {
+  //     case "admin":
+  //       history.push(`/admin/${userID}`);
+  //       break;
+  //     case "user":
+  //       history.push(`/user/${userID}`);
+  //       break;
+  //     case "compagny":
+  //       history.push(`/compagny/${userID}`);
+  //       break;
+  //     default:
+  //       return <Redirect to={"/"} />;
+  //   }
+  // };
 
   const onSubmit = async (values) => {
     const url = "http://localhost:4040/signin/signin";
@@ -52,7 +54,7 @@ const SignIn = () => {
           localStorage.setItem("token", response.headers["x-access-token"]);
           const userType = response.data.userType;
           const userID = response.data.userID;
-          goToUserPage(userType, userID);
+          goToUserProfilePage(userType, userID);
         }
       })
       .catch(() => {
