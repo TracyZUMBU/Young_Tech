@@ -1,0 +1,31 @@
+.filterBar {
+  height: 24rem;
+  position: relative;
+}
+
+.job-search {
+  
+  &__form {
+    padding: 1rem;
+    background-color: white;
+  }
+  
+  &__filter {
+    display: flex;
+    flex-direction: column;
+    width: 88%;
+    padding: 2.8rem;
+    background-color: inherit;
+    position: absolute;
+    z-index: 1;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.15);
+    @include respond(desktop){
+      width: 70%;
+    }
+    
+  }
+ 
+ }

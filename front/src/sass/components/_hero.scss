@@ -1,0 +1,48 @@
+.hero {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    padding-top: 88%;
+    background: url(../assets/background_image/background-hero.jpg);
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: cover;
+    @include respond(tab-port){
+        padding-top: 50%;
+    }
+    @include respond(tab-land){
+        padding-top: 50%;
+    }
+    @include respond(desktop){
+        padding-top: 24%;
+    }
+    &::before {
+        z-index: -1;
+        content: "";
+        background: rgba(255, 255, 255, 0.8);
+        position: absolute;
+        bottom: 0;
+        top: 0;
+        left: 0;
+        right: 0;
+    }
+}
+
+.heading-primary {
+    @include centerAbsolute(50%);
+    white-space: nowrap;
+    &--down {
+        @include centerAbsolute(64%)
+    }
+
+}
+
+#logo-menu {
+position: absolute;
+top: 0;
+right: 2.4rem;
+display: flex;
+margin-top: 2.5rem;
+z-index: 200;
+cursor: pointer;
+} 

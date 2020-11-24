@@ -1,0 +1,26 @@
+.unauthorized {
+  height: 100vh;
+  width: 100%;
+
+  background: url("../assets/background_image/bg-unauthorized.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  position: relative;
+  &__content{
+    position: absolute;
+    bottom: 24px;
+    left: 17px;
+    cursor: pointer;
+  }
+  &__link {
+    text-transform: uppercase;
+    color: var(--color-primary);
+    font-weight: bolder;
+    font-size: 2rem;
+  }
+  &__logo{
+    font-size: 3rem;
+    margin-right: 0.5rem;
+  }
+}

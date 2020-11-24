@@ -1,0 +1,87 @@
+.container-signUp {
+  
+  @include respond(desktop){
+    display: flex;
+    height: 100vh;
+  }
+}
+
+.create-account {
+  padding: 3rem 2.5rem;
+  @include respond(desktop) {
+    flex: 2;
+    overflow: scroll; 
+  }
+  &__form {
+    @include flexAllCenter;
+  }
+  @include respond(desktop) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  & a {
+    margin: 2rem 0 3rem;
+  }
+  & h1 {
+    margin-bottom: 3rem;
+  }
+}
+
+.welcome-back {
+  background-color: var(--color-tertiary);
+  color: var(--color-primary) !important;
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  @include respond(desktop) {
+    height: unset;
+    flex: 1;
+  }
+  & p {
+    letter-spacing: 0.5px;
+    margin: 2rem 0 3rem;
+  }
+  & h1 {
+    color: inherit;
+  }
+}
+
+.isShowInput {
+  @include respond(desktop) {
+    width: 100%;
+  }
+}
+
+.radioButton {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.radio {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  padding: 0;
+  margin-right: 1rem;
+  &:checked {
+    background-color: var(--color-tertiary);
+    border-color: var(--color-tertiary);
+  }
+}
+
+.container-radioOptions {
+  display: flex;
+}
+
+// .isShowInput {
+//   display: none;
+// }
+
+.radioButton > .container-radioOptions > #compagny:checked ~ .isShowInput {
+    color: red;
+    display: block;
+  }
+  
