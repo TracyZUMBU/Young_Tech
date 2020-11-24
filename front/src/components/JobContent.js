@@ -23,19 +23,39 @@ const JobContent = (props) => {
   };
 
   //close the modal and delete the offer
-  const handleDeleteOffer = () => {
+  const handleDeleteOffer = async () => {
     setmodalIsOpen(false);
     switch (userType) {
       case "compagny":
         const urlCompagny = `http://localhost:4040/compagny/deleteOffer/${idJob}`;
-        axios.delete(urlCompagny).then((res) => setResponse(res.data));
-        break;
-      case "admin":
-        const urlAdmin = `http://localhost:4040/compagny/deleteOffer/${idJob}`;
-        axios.delete(urlAdmin).then((res) => setResponse(res.data));
-        break;
+        await axios({
+          method: "DELETE",
+          url: urlCompagny,
+          headers: {
+            "Content-Type": "application/json",
+            "x-access-token": token,
+          },
+        })
+          .then((res) => setResponse(res.data))
+          .catch((error) => {
+            console.log("error:", error);
+          });
+          case "admin":
+            const urlAdmin = `http://localhost:4040/compagny/deleteOffer/${idJob}`;
+            await axios({
+              method: "DELETE",
+              url: urlAdmin,
+              headers: {
+                "Content-Type": "application/json",
+                "x-access-token": token,
+              },
+            })
+              .then((res) => setResponse(res.data))
+              .catch((error) => {
+                console.log("error:", error);
+              });
       case "user":
-        console.log("user deleted his application");
+        
         const urlUser = `http://localhost:4040/users/deleteApplication/${userID}/${idJob}`;
         axios.delete(urlUser).then((res) => setResponse(res.data));
         break;

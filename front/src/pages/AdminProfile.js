@@ -8,16 +8,14 @@ import Hero from "../components/Hero";
 import UpdateAdminProfile from "../components/UpdateProfileForm/UpdateAdminProfile";
 import DeleteAccount from "../components/DeleteAccount";
 
-//const getUserDetails = require("../services/services");
-
-import {getUserDetails} from "../services/services"
+import { getUserDetails } from "../services/services";
 import decode from "jwt-decode";
 Modal.setAppElement("#root");
 
 const AdminProfile = () => {
   //get the user's id form localstorage
-  const token = localStorage.getItem("token")
-  const {userID} = decode(token)
+  const token = localStorage.getItem("token");
+  const { userID } = decode(token);
 
   //get the list of :
   const [users, setUsers] = useState([]);
@@ -70,14 +68,25 @@ const AdminProfile = () => {
   // handle opening modal
   const handleModale = (userID) => {
     setUserToDelete(userID);
-    setmodalIsOpen(true)
+    setmodalIsOpen(true);
   };
 
   // handle deletation of user/compagny depending on is type
   const handleDelete = async () => {
     setmodalIsOpen(false);
-      const url = `http://localhost:4040/allpeople/deleteUserAccount/${userToDelete}`;
-      axios.delete(url).then((res) => setResponse(res.data));
+    const url = `http://localhost:4040/allpeople/deleteUserAccount/${userToDelete}`;
+    await axios({
+      method: "DELETE",
+      url: url,
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": token,
+      },
+    })
+      .then((res) => setResponse(res.data))
+      .catch((error) => {
+        console.log("error:", error);
+      });
   };
 
   return (
@@ -93,7 +102,11 @@ const AdminProfile = () => {
                   <p>
                     {user.first_name} {user.last_name}
                   </p>
-                  <span onClick={() => handleModale(user.userID)} role="img" aria-label={"supprimer"}>
+                  <span
+                    onClick={() => handleModale(user.userID)}
+                    role="img"
+                    aria-label={"supprimer"}
+                  >
                     &#x274C;
                   </span>
                 </div>
@@ -108,13 +121,9 @@ const AdminProfile = () => {
                 <ul key={compagny.compagnyID} className="list__compagny">
                   <li>{compagny.compagny_name}</li>
                   <span
-                  role="img"
-                  aria-label={"supprimer"}
-                    onClick={() =>
-                      handleModale(
-                        compagny.compagnyID
-                      )
-                    }
+                    role="img"
+                    aria-label={"supprimer"}
+                    onClick={() => handleModale(compagny.compagnyID)}
                   >
                     &#x274C;
                   </span>

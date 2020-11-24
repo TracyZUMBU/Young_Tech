@@ -1,8 +1,6 @@
 import React from 'react';
 import axios from "axios";
 import decode from "jwt-decode";
-import { Redirect } from 'react-router-dom'
-
 
 
 
@@ -26,7 +24,6 @@ export const getUserDetails = async () => {
 
 // Check if user is logged
 export const isLogged = () => {
-  console.log("into isLogged function");
 
   // 1. stock token from localstorage
   const token = localStorage.getItem("token");

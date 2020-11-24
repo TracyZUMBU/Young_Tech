@@ -5,7 +5,7 @@ const bodyParser = require ('body-parser')
 var cors = require('cors')
 const morgan = require('morgan')
 
-const {isAdmin} = require("./controllers/auth.js")
+const {isLogged, isAdmin} = require("./controllers/auth.js")
 
 const port = process.env.PORT || 4040
 

@@ -41,7 +41,7 @@ router.get("/getValuesFilter", (req, res) => {
 });
 
 // Delete an account (works)
-router.delete("/deleteUserAccount/:id", (req, res) => {
+router.delete("/deleteUserAccount/:id", isLogged, (req, res) => {
   const userID = req.params.id;
   console.log(userID);
   connection.query(

@@ -2,6 +2,10 @@ const connection = require("../../config");
 const express = require("express");
 const router = express.Router();
 
+//middleware
+const { isCompagny } = require("../../controllers/auth")
+
+
 //Get all offer by compagny (works)
 router.get("/getMyOffers/:id", (req, res) => {
   const userID = req.params.id;
@@ -89,7 +93,8 @@ router.put("/compagnyUpdateOffer", (req, res) => {
 });
 
 //Compagny can delete offers (works)
-router.delete("/deleteOffer/:id", (req, res) => {
+router.delete("/deleteOffer/:id",isCompagny, (req, res) => {
+  console.log("I'm insite delete route : deleteOffer");
   const offerID = req.params.id;
   connection.query(
     `DELETE FROM Job.offers WHERE offerID = "${offerID}"`,
@@ -98,6 +103,7 @@ router.delete("/deleteOffer/:id", (req, res) => {
         console.log(err);
         res.status(500).send("This compagny has not delete this offer");
       } else {
+        console.log("inside else");
         res.status(200).json(results);
       }
     }
