@@ -100,8 +100,6 @@ router.get("/userDetails/:userID", isLogged, (req, res) => {
 router.put("/updateProfile/:userID",isLogged, (req, res) => {
   const userID = req.params.userID;
   console.log('userID:', userID)
-  console.log(req.headers);
-  console.log(req.body);
   if(req.body.password){
     req.body.password = bcrypt.hash(req.body.password, 10)
   }
