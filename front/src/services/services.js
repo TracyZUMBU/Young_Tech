@@ -1,5 +1,10 @@
+import React from 'react';
 import axios from "axios";
 import decode from "jwt-decode";
+import { Redirect } from 'react-router-dom'
+
+
+
 
 // get user's details from BDD
 export const getUserDetails = async () => {
@@ -21,6 +26,8 @@ export const getUserDetails = async () => {
 
 // Check if user is logged
 export const isLogged = () => {
+  console.log("into isLogged function");
+
   // 1. stock token from localstorage
   const token = localStorage.getItem("token");
   // 2. verify if there is a token
@@ -76,3 +83,16 @@ export const userDetails = () => {
   }
 };
 
+// Redirect user towards his profile page once log in
+export const goToUserProfilePage = (userType, userID) => {
+  switch (userType) {
+    case "admin":
+      return window.location.replace(`/admin/${userID}`);
+    case "user":
+      return window.location.replace(`/user/${userID}`);
+    case "compagny":
+      return window.location.replace(`/compagny/${userID}`);
+    default:
+      return window.location.replace("/");
+  }
+};
