@@ -2,10 +2,10 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import Modal from "react-modal";
+import decode from "jwt-decode";
 //components
 import Button from "./Button";
 
-import decode from "jwt-decode";
 
 Modal.setAppElement("#root");
 

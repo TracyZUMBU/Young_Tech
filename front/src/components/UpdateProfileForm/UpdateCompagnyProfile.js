@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
@@ -8,12 +8,13 @@ import FormikControl from "../formik/FormikControl";
 import Button from "../Button";
 
 const UpdateCompagnyForm = (props) => {
-   //get the user's id form localstorage
-   const token = localStorage.getItem("token")
-  const {userID} = decode(token)
+  //get the user's id form localstorage
+  const token = localStorage.getItem("token");
+  const { userID } = decode(token);
   // get user's details from userProfile component
-  const userDetails = props.userDetails
+  const userDetails = props.userDetails;
 
+  const [response, setResponse] = useState();
 
   const values = {
     first_name: userDetails.first_name,
@@ -21,8 +22,8 @@ const UpdateCompagnyForm = (props) => {
     email: userDetails.email,
     phone: userDetails.phone,
     logo: userDetails.logo,
-    password:"",
-     repeat_password:"",
+    password: "",
+    repeat_password: "",
     description_compagny: userDetails.description_compagny,
     compagny_name: userDetails.compagny_name,
   };
@@ -45,14 +46,31 @@ const UpdateCompagnyForm = (props) => {
 
   //send new user's details to the BDD
   const onSubmit = async (values) => {
-    delete values["repeat_password"]
+    delete values["repeat_password"];
+    
     //remove empty string from the objects "values" in order to add into the BDD only values' fields provided
     Object.keys(values).forEach(
       (key) => values[key] === "" && delete values[key]
     );
+
     const url = `http://localhost:4040/allpeople/updateProfile/${userID}`;
-    await axios.put(url, values);
-    window.location.reload()
+    await axios({
+      method: "PUT",
+      url: url,
+      data: values,
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": token,
+      },
+    })
+      .then((res) => {
+        setResponse(res) 
+        if(res.status === 200){
+        alert('Vos données ont été modifiées')
+      }})
+      .catch(() => {
+        alert("Vos données n'ont pas pu être modifiéed")
+      });
   };
 
   return (

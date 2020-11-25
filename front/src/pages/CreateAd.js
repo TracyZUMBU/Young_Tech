@@ -12,9 +12,8 @@ import Button from "../components/Button";
 const CreatedAd = () => {
   let history = useHistory();
   //(state) - get this information from back when the user is login
-  const token = localStorage.getItem("token")
-  const {userID, compagny_name} = decode(token)
-
+  const token = localStorage.getItem("token");
+  const { userID, compagny_name } = decode(token);
 
   /**
    * Formik propreties
@@ -32,7 +31,7 @@ const CreatedAd = () => {
     { key: "Développeur frontend", value: "Développeur frontend" },
     { key: "Développeur backend", value: "Développeur backend" },
     { key: "Designer", value: "Designer" },
-    {key: "Intégrateur web", value: "Intégrateur web"}
+    { key: "Intégrateur web", value: "Intégrateur web" },
   ];
   // for contract select element
   const dropdownOptionsContract = [
@@ -62,11 +61,31 @@ const CreatedAd = () => {
     location: Yup.string().required("Obligatoire !"),
     contract: Yup.string().required("Obligatoire !"),
   });
+
   const onSubmit = async (values, onSubmitProps) => {
     const url = "http://localhost:4040/compagny/createad";
-    await axios.post(url, { ...values, userID, compagny_name });
-    onSubmitProps.resetForm();
-    history.goBack();
+    //await axios.post(url, { ...values, userID, compagny_name });
+    await axios({
+      method: "POST",
+      url: url,
+      data: {
+        ...values,
+        userID: userID,
+        compagny_name: compagny_name,
+      },
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": token,
+      },
+    }).then((res) => {
+      if (res.status === 200) {
+        alert("L'offre à bien été crée");
+        onSubmitProps.resetForm();
+        window.location.replace(`compagny/${userID}`);
+      }
+    }).catch(() => {
+      alert("L'offre n'a pas pu être crée")
+    })
   };
 
   return (

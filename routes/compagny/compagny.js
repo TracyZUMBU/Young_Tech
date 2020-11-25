@@ -28,7 +28,7 @@ router.get("/getMyOffers/:id", (req, res) => {
 });
 
 //Compagny can post offers (works)
-router.post("/createad", (req, res) => {
+router.post("/createad",isCompagny, (req, res) => {
   const content = req.body;
   console.log(content);
   connection.query(
