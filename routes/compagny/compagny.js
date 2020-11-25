@@ -112,7 +112,7 @@ router.delete("/deleteOffer/:id",isCompagny, (req, res) => {
 
 
 //update a offer
-router.put("/updatead/:offerID", (req,res) => {
+router.put("/updatead/:offerID",isCompagny, (req,res) => {
   const offerID = req.params.offerID
   const newDetails = req.body
 

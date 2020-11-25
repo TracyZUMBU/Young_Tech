@@ -59,9 +59,13 @@ const UpdateAdminProfile = (props) => {
         "x-access-token": token,
       },
     })
-      .then((res) => setResponse(res.data))
-      .catch((error) => {
-        console.log(error);
+      .then((res) => {
+        setResponse(res)
+        if(res.status === 200){
+          alert('Vos données ont été modifiées')
+      }})
+      .catch(() => {
+        alert("Vos données n'ont pas été modifiées")
       });
     //window.location.reload()
   };
