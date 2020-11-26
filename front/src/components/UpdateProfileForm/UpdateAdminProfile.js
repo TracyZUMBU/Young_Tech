@@ -18,7 +18,7 @@ const UpdateAdminProfile = (props) => {
   // get user's details from userProfile component
   const userDetails = props.userDetails;
   //set the values of the form with userDetails content
-  const values = {
+  const initialValues = {
     first_name: userDetails.first_name,
     last_name: userDetails.last_name,
     email: userDetails.email,
@@ -41,41 +41,54 @@ const UpdateAdminProfile = (props) => {
     phone: Yup.string(),
   });
 
-  const onSubmit = async (values) => {
+  function keepOnlyChangedValues(object1, object2) {
+    const keys1 = Object.keys(object1);
+
+    for (let key of keys1) {
+      if (object1[key] === object2[key]) {
+        delete object2[key];
+      }
+    }
+  }
+
+  const onSubmit = async (values, onSubmitProps) => {
+    keepOnlyChangedValues(initialValues, values);
+
     delete values["repeat_password"];
-    //remove empty string from the objects "values" in order to add into the BDD only values' fields provided
-    Object.keys(values).forEach(
-      (key) => values[key] === "" && delete values[key]
-      );
-      
-      console.log('values:', values)
-    const url = `http://localhost:4040/allpeople/updateProfile/${userID}`;
-    await axios({
-      method: "PUT",
-      url: url,
-      data: values,
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": token,
-      },
-    })
-      .then((res) => {
-        setResponse(res)
-        if(res.status === 200){
-          alert('Vos données ont été modifiées')
-      }})
-      .catch(() => {
-        alert("Vos données n'ont pas été modifiées")
-      });
-    //window.location.reload()
+
+    const confirmChoice = window.confirm(
+      "Etes-vous sûr de vouloir modifier vos données ? "
+    );
+
+    try {
+      if (confirmChoice) {
+        const url = `http://localhost:4040/allpeople/updateProfile/${userID}`;
+        await axios({
+          method: "PUT",
+          url: url,
+          data: values,
+          headers: {
+            "Content-Type": "application/json",
+            "x-access-token": token,
+          },
+        }).then((res) => {
+          if (res.status === 200) {
+            alert("Vos données ont été modifiées");
+          }
+        });
+      } else {
+        onSubmitProps.resetForm();
+      }
+    } catch {
+      alert("Vos données n'ont pas pu être modifiées");
+    }
   };
 
-  
   return (
     <div>
       {!userDetails.logo ? null : (
         <Formik
-          initialValues={values}
+          initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={onSubmit}
           enableReinitialize
@@ -134,6 +147,7 @@ const UpdateAdminProfile = (props) => {
                   disabled={!(formik.dirty && formik.isValid)}
                   className={"btn btn--round"}
                   value={"Modifier mon profil"}
+                  messageError={Object.values(formik.errors).join(", ")}
                 />
               </Form>
             );
