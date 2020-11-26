@@ -74,6 +74,7 @@ const UpdateAdminProfile = (props) => {
         }).then((res) => {
           if (res.status === 200) {
             alert("Vos données ont été modifiées");
+            window.location.reload();
           }
         });
       } else {
@@ -94,7 +95,7 @@ const UpdateAdminProfile = (props) => {
           enableReinitialize
         >
           {(formik) => {
-            console.log("formik:", formik);
+
             return (
               <Form className="signIn__form">
                 <FormikControl

@@ -43,12 +43,12 @@ router.get("/getValuesFilter", (req, res) => {
 // Delete an account (works)
 router.delete("/deleteUserAccount/:id", isLogged, (req, res) => {
   const userID = req.params.id;
-  console.log(userID);
+
   connection.query(
     `DELETE FROM Job.users WHERE users.userID = "${userID}"`,
     (err, results) => {
       if (err) {
-        console.log("err:  hello", err);
+        console.log("err: ", err);
         res.status(500).send("This user have not been deleted");
       } else {
         res.status(200).json(results);
@@ -60,7 +60,7 @@ router.delete("/deleteUserAccount/:id", isLogged, (req, res) => {
 // get detail's offer (works)
 router.get("/getOffer/:idJob", (req, res) => {
   const offerID = req.params.idJob;
-  console.log('offerID:', offerID)
+
   connection.query(
     `SELECT * FROM Job.offers
       INNER JOIN Job.compagnies
@@ -99,7 +99,7 @@ router.get("/userDetails/:userID", isLogged, (req, res) => {
 // all users can update his info (works)
 router.put("/updateProfile/:userID",isLogged, (req, res) => {
   const userID = req.params.userID;
-  console.log('userID:', userID)
+
   if(req.body.password){
     req.body.password = bcrypt.hash(req.body.password, 10)
   }

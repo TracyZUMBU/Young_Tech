@@ -60,7 +60,6 @@ const SignIn = () => {
                 validateOnMount
               >
                 {(formik) => {
-                  //console.log("formik:", formik);
                   return (
                     <Form className="signIn__form">
                       <h1 className="heading-primary--main">Se connecter</h1>

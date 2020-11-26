@@ -1,9 +1,8 @@
 const connection = require('../../config')
 const express = require('express')
-const { route } = require('../admin/admin')
 const router = express.Router() 
 
-
+const { isLogged, isUser} = require("../../controllers/auth")
 
 //  get applied offers (works)
 router.get('/offerApplied/:userID', (req, res) => { 
@@ -37,7 +36,7 @@ router.get('/lastUserID', (req,res) => {
 
 
 // // user can post their application (works)
-router.post('/postApplication', (req, res)=>{
+router.post('/postApplication',isLogged, (req, res)=>{
   const content = req.body
   console.log(content)
  connection.query(`INSERT INTO Job.application(first_name, email, cover_letter, phone, last_name,offer_id, user_id, compagny_id) VALUES ("${content.first_name}", "${content.email}", "${content.cover_letter}","${content.phone}", "${content.last_name}", "${content.offer_id}", "${content.user_id}", "${content.compagny_id}") `,(err, results)=>{
@@ -51,7 +50,7 @@ router.post('/postApplication', (req, res)=>{
 })
  
 //delete application (works)
-router.delete("/deleteApplication/:userID/:offerID", (req,res) => {
+router.delete("/deleteApplication/:userID/:offerID",isUser, (req,res) => {
   const userID = req.params.userID;
   const offerID = req.params.offerID
   connection.query(`DELETE FROM Job.application WHERE user_id = ${userID} AND offer_id = ${offerID}`)

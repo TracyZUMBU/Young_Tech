@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import axios from "axios";
 import decode from "jwt-decode";
 
-import { UserInfoContext } from "../App"
+import { UserInfoContext } from "../App";
 
 //components
 import FormikControl from "../components/formik/FormikControl";
@@ -16,11 +16,11 @@ const getUserDetails = require("../../src/services/services");
 
 const ApplicationForm = (props) => {
   let history = useHistory();
-  const {offer_id, compagny_id} = props.match.params
+  const { offer_id, compagny_id } = props.match.params;
 
   // get user'id from localstorage
-  const token = localStorage.getItem("token")
-  const {userID} = decode(token)
+  const token = localStorage.getItem("token");
+  const { userID } = decode(token);
 
   //store user's details
   const [myDetails, setMyDetails] = useState([]);
@@ -45,7 +45,6 @@ const ApplicationForm = (props) => {
     }
   }, [userID]);
 
-
   const initialValues = {
     first_name: "",
     last_name: "",
@@ -53,6 +52,7 @@ const ApplicationForm = (props) => {
     phone: "",
     cover_letter: "",
   };
+
   const validationSchema = Yup.object({
     first_name: Yup.string().required("Obligatoire !"),
     last_name: Yup.string().required("Obligatoire !"),
@@ -64,15 +64,32 @@ const ApplicationForm = (props) => {
   });
 
   const onSubmit = async (values) => {
-    if (userID) {
-     
-      const url = "http://localhost:4040/users/postApplication";
-      await axios.post(url, { ...values, user_id:userID, offer_id, compagny_id });
-    } else {
-      const url = "http://localhost:4040/users/postApplication";
-      await axios.post(url, { ...values, offer_id, user_id: lastUserID, compagny_id });
+    try {
+      if (userID) {
+        const url = "http://localhost:4040/users/postApplication";
+        await axios({
+          method: "POST",
+          url: url,
+          data: {
+            ...values,
+            user_id: userID,
+            offer_id,
+            compagny_id,
+          },
+          headers: {
+            "Content-Type": "application/json",
+            "x-access-token": token,
+          },
+        }).then((res) => {
+          if (res.status === 200) {
+            alert("Votre candidature a été envoyée");
+          }
+        });
+      }
+    } catch {
+      alert("Votre candidature n'a pas pu être envoyée");
     }
-    history.goBack();
+    window.location.replace("/");
   };
 
   return (

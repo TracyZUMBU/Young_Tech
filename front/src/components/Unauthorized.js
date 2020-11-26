@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 
 const Unauthorized = () => {
   let history = useHistory();
-  console.log("I'm in unauthorized page");
+
   return (
     <div className="unauthorized">
       <div className="unauthorized__content">

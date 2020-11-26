@@ -12,7 +12,7 @@ import briefcase from "../assets/logo_nav/mallette.svg";
 import registration from "../assets/logo_nav/registration.svg";
 
 const NavBar = () => {
-  console.log(isLogged());
+
   let history = useHistory();
   const userInfo = useContext(UserInfoContext);
   const [userID, setUserID] = useState("");

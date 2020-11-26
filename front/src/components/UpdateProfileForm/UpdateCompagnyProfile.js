@@ -77,6 +77,7 @@ const UpdateCompagnyForm = (props) => {
         }).then((res) => {
           if (res.status === 200) {
             alert("Vos données ont été modifiées");
+            window.location.reload();
           }
         });
       } else {

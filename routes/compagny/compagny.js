@@ -30,7 +30,7 @@ router.get("/getMyOffers/:id", (req, res) => {
 //Compagny can post offers (works)
 router.post("/createad",isCompagny, (req, res) => {
   const content = req.body;
-  console.log(content);
+
   connection.query(
     `INSERT INTO Job.offers (job_name, description_position, prerequisite, location, wage, contract, compagny_id, user_id, compagny_name) VALUES ("${content.job_name}", "${content.description_position}", "${content.prerequisite}", "${content.location}", "${content.wage}", "${content.contract}", "${content.userID}", "${content.userID}", "${content.compagny_name}")`,
     (err, resultat) => {
@@ -78,7 +78,7 @@ router.get("/application/:compagny_name", (req, res) => {
 // Compagny can update their offers
 router.put("/compagnyUpdateOffer", (req, res) => {
   const details = req.body;
-  console.log(details);
+
   connection.query(
     `UPDATE offers SET job_name="${details.job_name}" description_position="${details.description_post}",prerequisite="${details.prerequisite}",wage="${details.wage}",contract="${details.contract}",location="${details.location}" WHERE  offers.compagnyID ="${details.compagnyID}  AND WHERE offers.userID = "${details.userID}"`,
     (err, results) => {
@@ -94,7 +94,7 @@ router.put("/compagnyUpdateOffer", (req, res) => {
 
 //Compagny can delete offers (works)
 router.delete("/deleteOffer/:id",isCompagny, (req, res) => {
-  console.log("I'm insite delete route : deleteOffer");
+ 
   const offerID = req.params.id;
   connection.query(
     `DELETE FROM Job.offers WHERE offerID = "${offerID}"`,
@@ -103,7 +103,6 @@ router.delete("/deleteOffer/:id",isCompagny, (req, res) => {
         console.log(err);
         res.status(500).send("This compagny has not delete this offer");
       } else {
-        console.log("inside else");
         res.status(200).json(results);
       }
     }

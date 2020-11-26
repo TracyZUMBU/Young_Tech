@@ -7,7 +7,6 @@ import JobContent from "../components/JobContent";
 const JobPage = (props) => {
   // Get params' id
   const id = props.match.params.id;
-  console.log("props.match:", props);
 
   //stock datas for DB
   const [descriptionJob, setDescriptionJob] = useState([{}]);

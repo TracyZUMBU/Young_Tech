@@ -3,7 +3,6 @@ const jwt = require("jsonwebtoken");
 
 module.exports = {
   validateRegister: (req, res, next) => {
-    console.log("I'm inside validateRegister middleware");
     const { email, password, repeat_password } = req.body;
 
     connection.query(
@@ -32,7 +31,7 @@ module.exports = {
     );
   },
   isLogged: (req, res, next) => {
-    console.log("I'm inside isLogged middleware");
+
     const token = req.headers["x-access-token"];
     if (!token) return res.status(401).send("Access Denied");
     try {
@@ -45,7 +44,7 @@ module.exports = {
     next();
   },
   isAdmin: (req, res, next) => {
-    console.log("I'm inside isAdmin middleware");
+
     const token = req.headers["x-access-token"];
     if (!token)
       return res
@@ -54,7 +53,6 @@ module.exports = {
     try {
       const verified = jwt.verify(token, process.env.JWT_SECRET);
       req.user = verified;
-      console.log("verified:", verified);
       if (verified.userType === "admin") {
         next();
       }
@@ -64,7 +62,7 @@ module.exports = {
     }
   },
   isCompagny: (req, res, next) => {
-    console.log("I'm inside isCompagny middleware");
+
     const token = req.headers["x-access-token"];
     if (!token)
       return res
@@ -73,7 +71,7 @@ module.exports = {
     try {
       const verified = jwt.verify(token, process.env.JWT_SECRET);
       req.user = verified;
-      console.log("verified:", verified);
+
       if (verified.userType === "admin" || verified.userType === "compagny") {
         next();
       }
@@ -83,7 +81,7 @@ module.exports = {
     }
   },
   isUser: (req, res, next) => {
-    console.log("I'm inside isUser middleware");
+
     const token = req.headers["x-access-token"];
     if (!token)
       return res

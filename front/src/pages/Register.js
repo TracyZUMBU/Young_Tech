@@ -60,21 +60,6 @@ const Register = () => {
     }),
   });
 
-  // const goToUserProfilePage = (userType, userID) => {
-  //   switch (userType) {
-  //     case "admin":
-  //       history.push(`/admin/${userID}`);
-  //       break;
-  //     case "user":
-  //       history.push(`/user/${userID}`);
-  //       break;
-  //     case "compagny":
-  //       history.push(`/compagny/${userID}`);
-  //       break;
-  //     default:
-  //       return <Redirect to={"/"} />;
-  //   }
-  //};
 
   const onSubmit = async (values) => {
     //remove empty string from the objects "values" in order to add into the BDD only values' fields provided
@@ -92,42 +77,9 @@ const Register = () => {
       }
     })
     .catch((error) => {
-      console.log('error:', error)
-      
+      alert("Votre compte n'a pas pu être crée")
      })
-     
-    // const data = await response.data;
-    // const getData = {
-    //   userID: data.userID,
-    //   isLogged: data.isLogged,
-    //   userType: data.userType,
-    //   compagnyID: data.compagnyID,
-    //   compagny_name: data.compagny_name,
-    // };
 
-    // localStorage.setItem("dataKey", JSON.stringify(getData));
-
-    // if (localStorage.getItem("dataKey")) {
-    //   const getUserDetails = JSON.parse(localStorage.getItem("dataKey"));
-    //   const userID = getUserDetails.userID;
-    //   const userType = getUserDetails.userType;
-    //   switch (userType) {
-    //     case "admin":
-    //       history.push(`/admin/${userID}`);
-    //       break;
-    //     case "user":
-    //       history.push(`/user/${userID}`);
-    //       break;
-    //     case "compagny":
-    //       history.push(`/compagny/${userID}`);
-    //       break; 
-    //     default:
-    //       return <Redirect to={"/"} />;
-    //   }
-    // } else {
-    //   alert("Error : Impossible de vous connecter");
-    //   return <Redirect to={"/"} />;
-    // }
   };
 
   return (
@@ -154,7 +106,7 @@ const Register = () => {
             validateOnMount
           >
             {(formik) => {
-              console.log("formik:", formik);
+              
               return (
                 <Form className="signIn__form">
                   <h1 className="heading-primary--main">Créer un compte</h1>
