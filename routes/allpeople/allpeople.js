@@ -3,7 +3,7 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const router = express.Router();
 
-const { isLogged, isAdmin } = require("../../controllers/auth")
+const { isLogged } = require("../../controllers/auth")
 
 
 //getOffers pour fichier allPeople (works)
@@ -41,7 +41,7 @@ router.get("/getValuesFilter", (req, res) => {
 });
 
 // Delete an account (works)
-router.delete("/deleteUserAccount/:id", (req, res) => {
+router.delete("/deleteUserAccount/:id", isLogged, (req, res) => {
   const userID = req.params.id;
   console.log(userID);
   connection.query(
@@ -97,8 +97,9 @@ router.get("/userDetails/:userID", isLogged, (req, res) => {
 ////////////////////////////////// UPDATE
 
 // all users can update his info (works)
-router.put("/updateProfile/:userID", (req, res) => {
+router.put("/updateProfile/:userID",isLogged, (req, res) => {
   const userID = req.params.userID;
+  console.log('userID:', userID)
   if(req.body.password){
     req.body.password = bcrypt.hash(req.body.password, 10)
   }
@@ -108,7 +109,8 @@ router.put("/updateProfile/:userID", (req, res) => {
     [newDetails , userID],
     (err, results) => {
       if (err) {
-        console.log(err);
+        console.log("updateProfile route error:" + err );
+        res.status(401).send("Unable to update profile");
       } else {
         res.status(200).json(results);
       }

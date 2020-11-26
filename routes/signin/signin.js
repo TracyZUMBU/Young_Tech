@@ -32,6 +32,7 @@ const buildToken = (results, res) => {
     description_compagny,
     logo,
     compagnyID,
+    compagny_name
   } = results[0];
   
   // build token
@@ -46,6 +47,7 @@ const buildToken = (results, res) => {
       compagnyID,
       logo,
       userType: type,
+      compagny_name:compagny_name
     },
     secret,
     {

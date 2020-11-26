@@ -2,12 +2,9 @@ const connection = require('../../config')
 const express = require('express')
 const router = express.Router()
 
+const { isAdmin } = require("../../controllers/auth")
 
-
-//   USERS
-
-
-//Admin can get all users (works)
+//get basic user and admin user (works)
 router.get("/users", (req, res) => {
     connection.query(
       'SELECT * FROM Job.users WHERE users.type = "user" OR users.type = "admin"',
@@ -21,7 +18,8 @@ router.get("/users", (req, res) => {
     );
   });
 
-// Admin can get all compagny
+
+// get compagny users
 router.get("/compagnies", (req, res) => {
     connection.query("SELECT * FROM Job.compagnies ", (err, results) => {
       if (err) {
@@ -33,8 +31,8 @@ router.get("/compagnies", (req, res) => {
   });
 
 
-//Admin can delete an user (checked)
-router.delete('/userDelete/:id', (req, res) => {
+//delete user account
+router.delete('/userDelete/:id', isAdmin, (req, res) => {
     const userID = req.params.id
     connection.query(`DELETE FROM Job.users WHERE userID = "${userID}"`, (err, results) => {
         if (err) {
@@ -47,10 +45,8 @@ router.delete('/userDelete/:id', (req, res) => {
     })
 })
 
-//OFFERS
 
-
-//Admin can delete an offer (checked)
+//delete a offer
 router.delete('/offerDelete/:id',(req, res)=>{
     const offerID = req.params.id
  connection.query(`DELETE FROM Job.offers WHERE offerID = "${offerID}"`,(err, results)=>{
@@ -64,10 +60,7 @@ router.delete('/offerDelete/:id',(req, res)=>{
 })
 
 
-//      COMPAGNIES
-
-
-// Admin can delete a compagny (checked)
+// delete a compagny
 router.delete('/compagnyDelete/:id', (req, res) => {
     const compagnyID = req.params.id
     connection.query(`DELETE FROM Job.compagnies WHERE compagnyID = "${compagnyID}"`,(err , results) => {
