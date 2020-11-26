@@ -8,11 +8,11 @@ import axios from "axios";
 import FormikControl from "../components/formik/FormikControl";
 import Button from "../components/Button";
 
-import { goToUserProfilePage } from "../services/services"
+import { goToUserProfilePage } from "../services/services";
 
 const Register = () => {
-
   const errormsg = "Obligatoire !"; //mettre dans state contexte
+  const phoneRegex = /^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/
 
   const radioOptions = [
     {
@@ -49,7 +49,8 @@ const Register = () => {
         "Les mots de passe doivent être indentiques"
       )
       .required(errormsg),
-    phone: Yup.string().required(errormsg),
+    phone: Yup.string().matches(phoneRegex, 'Le format du numéro de téléphone est incorrect')
+      .required(errormsg),
     compagny_name: Yup.string().when("userType", {
       is: "compagny",
       then: Yup.string().required(errormsg),
@@ -60,7 +61,6 @@ const Register = () => {
     }),
   });
 
-
   const onSubmit = async (values) => {
     //remove empty string from the objects "values" in order to add into the BDD only values' fields provided
     Object.keys(values).forEach(
@@ -68,18 +68,19 @@ const Register = () => {
     );
 
     const url = "http://localhost:4040/signin/register";
-    await axios.post(url, values).then((response) => {
-      if (response.status === 200) {
-        localStorage.setItem("token", response.headers["x-access-token"]);
-        const userType = response.data.userType;
-        const userID = response.data.userID;
+    await axios
+      .post(url, values)
+      .then((response) => {
+        if (response.status === 200) {
+          localStorage.setItem("token", response.headers["x-access-token"]);
+          const userType = response.data.userType;
+          const userID = response.data.userID;
           goToUserProfilePage(userType, userID);
-      }
-    })
-    .catch((error) => {
-      alert("Votre compte n'a pas pu être crée")
-     })
-
+        }
+      })
+      .catch((error) => {
+        alert("Votre compte n'a pas pu être crée");
+      });
   };
 
   return (
@@ -106,7 +107,7 @@ const Register = () => {
             validateOnMount
           >
             {(formik) => {
-              
+              console.log('formik:', formik)              
               return (
                 <Form className="signIn__form">
                   <h1 className="heading-primary--main">Créer un compte</h1>

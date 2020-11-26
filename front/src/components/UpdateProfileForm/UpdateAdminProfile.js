@@ -12,6 +12,7 @@ const UpdateAdminProfile = (props) => {
   //get the user's id form localstorage
   const token = localStorage.getItem("token");
   const { userID } = decode(token);
+  const phoneRegex = /^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/
 
   const [response, setResponse] = useState();
 
@@ -34,11 +35,18 @@ const UpdateAdminProfile = (props) => {
     type: Yup.string(),
     email: Yup.string().email("Le format de l'email est incorrect"),
     password: Yup.string(),
-    repeat_password: Yup.string().oneOf(
-      [Yup.ref("password"), ""],
-      "Les mots de passe doivent être indentiques"
-    ),
-    phone: Yup.string(),
+    repeat_password: Yup.string()
+      .oneOf(
+        [Yup.ref("password"), ""],
+        "Les mots de passe doivent être indentiques"
+      )
+      .when("password", {
+        is: (password) => password,
+        then: Yup.string().required(
+          "Veuillez de nouveau saisir votre mot de passe"
+        ),
+      }),
+    phone: Yup.string().matches(phoneRegex, 'Le format du numéro de téléphone est incorrect'),
   });
 
   function keepOnlyChangedValues(object1, object2) {
@@ -148,7 +156,6 @@ const UpdateAdminProfile = (props) => {
                   disabled={!(formik.dirty && formik.isValid)}
                   className={"btn btn--round"}
                   value={"Modifier mon profil"}
-                  messageError={Object.values(formik.errors).join(", ")}
                 />
               </Form>
             );
