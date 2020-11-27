@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Modal from "react-modal";
-import decode from "jwt-decode";
 //components
 import Button from "../components/Button";
+
+import { userDetails } from "../services/services"
 
 const JobContent = (props) => {
   const {
@@ -18,7 +19,7 @@ const JobContent = (props) => {
 
   // get user'id from localstorage
   const token = localStorage.getItem("token");
-  const { userID } = decode(token);
+  const userID = userDetails.userID
 
   //handle the modal and the response from the back when deleting something
   const [modalIsOpen, setmodalIsOpen] = useState(false);
@@ -47,6 +48,7 @@ const JobContent = (props) => {
         } catch {
           alert("L'offre n'a pas pu être supprimé");
         }
+        break;
       case "admin":
         try {
           const urlAdmin = `http://localhost:4040/compagny/deleteOffer/${idJob}`;
@@ -61,7 +63,7 @@ const JobContent = (props) => {
         } catch {
           alert("L'offre n'a pas pu être supprimé");
         }
-
+        break;
       case "user":
         try {
           const urlUser = `http://localhost:4040/users/deleteApplication/${userID}/${idJob}`;

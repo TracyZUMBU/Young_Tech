@@ -12,30 +12,21 @@ import FormikControl from "../components/formik/FormikControl";
 import Hero from "../components/Hero";
 import Button from "../components/Button";
 
-const getUserDetails = require("../../src/services/services");
-
+//const getUserDetails = require("../../src/services/services");
+import { userDetails, getUserDetails } from "../../src/services/services";
 const ApplicationForm = (props) => {
   let history = useHistory();
   const { offer_id, compagny_id } = props.match.params;
 
   // get user'id from localstorage
   const token = localStorage.getItem("token");
-  const { userID } = decode(token);
+  const userID = userDetails.userID;
 
   //store user's details
   const [myDetails, setMyDetails] = useState([]);
-  //store visitor's id
-  const [lastUserID, setLastUserID] = useState([]);
+
 
   useEffect(() => {
-    //create a id for visitor which wants to apply to a job
-    const getLastUser = async () => {
-      const url = "http://localhost:4040/users/lastUserID";
-      const results = await axios.get(url);
-      setLastUserID(results.data[0].userID + 1);
-    };
-    getLastUser();
-
     if (userID) {
       async function fetchData() {
         const userDetails = await getUserDetails.getUserDetails(userID);
@@ -64,32 +55,28 @@ const ApplicationForm = (props) => {
   });
 
   const onSubmit = async (values) => {
+    console.log("values:", values);
     try {
-      if (userID) {
-        const url = "http://localhost:4040/users/postApplication";
-        await axios({
-          method: "POST",
-          url: url,
-          data: {
-            ...values,
-            user_id: userID,
-            offer_id,
-            compagny_id,
-          },
-          headers: {
-            "Content-Type": "application/json",
-            "x-access-token": token,
-          },
-        }).then((res) => {
-          if (res.status === 200) {
-            alert("Votre candidature a été envoyée");
-          }
-        });
-      }
+      const url = "http://localhost:4040/users/postApplication";
+      await axios({
+        method: "POST",
+        url: url,
+        data: {
+          ...values,
+          user_id: userID,
+          offer_id,
+          compagny_id,
+        },
+      }).then((res) => {
+        if (res.status === 200) {
+          alert("Votre candidature a été envoyée");
+          window.location.replace("/");
+        }
+      });
     } catch {
       alert("Votre candidature n'a pas pu être envoyée");
     }
-    window.location.replace("/");
+
   };
 
   return (

@@ -2,7 +2,7 @@ import React from 'react'
 
 const TextError = (props) => {
     return (
-        <div className="error-form">
+        <div className="errorMessage">
             {props.children}
         </div>
     )
