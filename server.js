@@ -2,10 +2,8 @@ const express = require ('express');
 const app = express();
 const router = require ('./routes/index')
 const bodyParser = require ('body-parser')
-var cors = require('cors')
+const cors = require('cors')
 const morgan = require('morgan')
-
-const {isLogged, isAdmin} = require("./controllers/auth.js")
 
 const port = process.env.PORT || 4040
 

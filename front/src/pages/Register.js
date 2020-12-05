@@ -87,14 +87,14 @@ const Register = () => {
     <div className="container-signUp">
       <div className="welcome-back">
         <div className="inner-box inner-box--blue">
-          <h1 className="heading-primary--main">Welcome Back!</h1>
-          <p>To keep connected with us please login with your personal info</p>
+          <h1 className="heading-primary--main">ravi de te revoir!</h1>
+          <p>Connecte-toi pour accéder à ton espace personnel. </p>
           <Link
             to={"/signin"}
             id="signIn"
             className="btn btn--round btn--transparent"
           >
-            Sign In
+            Se connecter
           </Link>
         </div>
       </div>
@@ -190,7 +190,7 @@ const Register = () => {
                     type="submit"
                     disabled={!formik.isValid}
                     className={"btn btn--round"}
-                    value={"Sign up"}
+                    value={"Créer mon compte"}
                   />
                 </Form>
               );

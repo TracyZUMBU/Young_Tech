@@ -91,8 +91,8 @@ const SignIn = () => {
           </div>
           <div className="hello-friend">
             <div className="inner-box inner-box--blue">
-              <h1 className="heading-primary--main">Hello Friend!</h1>
-              <p>Enter your personal details and start journey with us</p>
+              <h1 className="heading-primary--main">Hello l'ami !</h1>
+              <p>Saisissez vos informations personnelle et trouvez le job de vos rêves</p>
               <Link
                 to={"/register"}
                 className="btn btn--round btn--transparent"

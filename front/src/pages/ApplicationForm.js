@@ -133,7 +133,7 @@ const ApplicationForm = (props) => {
                     type="submit"
                     disabled={!formik.isValid}
                     className={"btn"}
-                    value={"Envoyer"}
+                    value={"Postuler"}
                   />
                 </div>
               </Form>
@@ -189,7 +189,7 @@ const ApplicationForm = (props) => {
                     type="submit"
                     disabled={!formik.isValid}
                     className={"btn"}
-                    value={"Envoyer"}
+                    value={"Postuler"}
                   />
                 </div>
               </Form>

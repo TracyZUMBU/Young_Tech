@@ -63,7 +63,6 @@
 }
 
 
-
 .inner-box {
   @include flexAllCenter;
   &--blue {
@@ -72,6 +71,11 @@
   }
   @include respond(desktop){
     width: 60%;
+  }
+  &--blue {
+    @include respond(desktop){
+      width: 80%;
+    }
   }
 }
 

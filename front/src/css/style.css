@@ -759,6 +759,9 @@ li.navigation__items:hover {
   @media only screen and (min-width: 75em) {
     .inner-box {
       width: 60%; } }
+  @media only screen and (min-width: 75em) {
+    .inner-box--blue {
+      width: 80%; } }
 
 label.createAd-form__block {
   margin-bottom: 5px; }

@@ -80,7 +80,7 @@ const CompagnyProfile = (props) => {
 
           <Link to={"/createAd"} className={"btn btn--round"}>
             {" "}
-            Crée une nouvelle offre
+            Créer une nouvelle offre
           </Link>
           <Link to={"/application"} className="btn btn--grey btn--round"> Voir les candidatures</Link>
           <DeleteAccount />
