@@ -1,19 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Formik, Form} from "formik";
-import * as Yup from "yup";
+import { Formik, Form } from "formik";
 import axios from "axios";
 
 //components
 import FormikControl from "../components/formik/FormikControl";
 import Button from "../components/Button";
-
-import { goToUserProfilePage } from "../services/services"
+import { goToUserProfilePage } from "../services/services";
+import { validationSchemaSignIn } from "../controllers/validationSchema";
 
 const SignIn = () => {
-
-  let msgForFailingLogIn;
-  const errormsg = "Obligatoire !"; //mettre dans state contexte
+  let msgWhenFailingLogIn;
 
   // initial values of the form
   const initialValues = {
@@ -21,14 +18,7 @@ const SignIn = () => {
     password: "",
   };
 
-  const validationSchema = Yup.object({
-    email: Yup.string()
-      .email("Le format de l'email est incorrect !")
-      .required(errormsg),
-    password: Yup.string().required(errormsg),
-  });
-
-
+  // handling submission
   const onSubmit = async (values) => {
     const url = "http://localhost:4040/signin/signin";
     await axios
@@ -41,9 +31,14 @@ const SignIn = () => {
           goToUserProfilePage(userType, userID);
         }
       })
-      .catch(() => {
-        msgForFailingLogIn = "Vos informations sont incorrectes";
-        return msgForFailingLogIn;
+      .catch((err) => {
+        const errorMessage = err.response.data.msg;
+        if (errorMessage) {
+          msgWhenFailingLogIn = errorMessage;
+        } else {
+          msgWhenFailingLogIn = "il est impossible de vous connecter";
+          return msgWhenFailingLogIn;
+        }
       });
   };
 
@@ -55,7 +50,7 @@ const SignIn = () => {
             <div className="inner-box">
               <Formik
                 initialValues={initialValues}
-                validationSchema={validationSchema}
+                validationSchema={validationSchemaSignIn}
                 onSubmit={onSubmit}
                 validateOnMount
               >
@@ -63,7 +58,7 @@ const SignIn = () => {
                   return (
                     <Form className="signIn__form">
                       <h1 className="heading-primary--main">Se connecter</h1>
-                      <p className="errorMessage">{msgForFailingLogIn}</p>
+                      <p className="errorMessage">{msgWhenFailingLogIn}</p>
                       <FormikControl
                         control="input"
                         type="email"
@@ -81,7 +76,7 @@ const SignIn = () => {
                         type="submit"
                         disabled={!formik.isValid}
                         className={"btn btn--round"}
-                        value={"Sign In"}
+                        value={"Se connecter"}
                       />
                     </Form>
                   );
@@ -92,7 +87,10 @@ const SignIn = () => {
           <div className="hello-friend">
             <div className="inner-box inner-box--blue">
               <h1 className="heading-primary--main">Hello l'ami !</h1>
-              <p>Saisissez vos informations personnelle et trouvez le job de vos rêves</p>
+              <p>
+                Saisissez vos informations personnelle et trouvez le job de vos
+                rêves
+              </p>
               <Link
                 to={"/register"}
                 className="btn btn--round btn--transparent"

@@ -12,13 +12,13 @@ const FormikControl = (props) => {
       return <Input {...rest} />;
     case "textarea":
       return <Textarea {...rest} />;
-    case "select": 
-    return <Select {...rest} />
+    case "select":
+      return <Select {...rest} />;
     case "radio":
-    case "checkbox": 
-    return <RadioButtons {...rest} />
-    case "date": 
-    return <DatePicker {...rest} />
+    case "checkbox":
+      return <RadioButtons {...rest} />;
+    case "date":
+      return <DatePicker {...rest} />;
     default:
       return null;
   }

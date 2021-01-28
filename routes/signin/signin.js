@@ -5,20 +5,14 @@ const app = express();
 const bcrypt = require("bcrypt");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
-const expressJwt = require("express-jwt");
+
 
 //middleware
 const { validateRegister} = require("../../controllers/auth");
 
 //privateKey of token
-const secret = process.env.JWT_SECRET;
+const secret = process.env.JWT_SECRET
 
-app.use(
-  expressJwt({
-    secret: secret,
-    algorithms: ["RS256"],
-  }).unless({ path: ["/register"] })
-);
 
 //function to build token with user's detail get from requests
 const buildToken = (results, res) => {
@@ -77,14 +71,15 @@ router.post("/signin", (req, res) => {
         console.log("Error when selecting user's details ", + err);
       } else if (!results[0]) {
         console.log("user not found");
-        return res.status(409).send({ msg: "your details is incorrect" });
+        return res.status(401).send({ msg: "Votre e-mail et/ou mot de passe sont incorrectes." });
       }
       
-      const passwordIsValid = bcrypt.compareSync(password, results[0].password);
-      if (!passwordIsValid) {
-        console.log("password incorrect");
-        return res.status(409).send({ msg: "your details is incorrect" });
-      }
+      bcrypt.compare(password, results[0].password).then(passwordIsValid => {
+        if (!passwordIsValid) {
+          console.log("password incorrect");
+          return res.status(401).send({ msg: "Votre e-mail et/ou mot de passe sont incorrectes." });
+        }
+      })
 
       // Build token
       buildToken(results,res)

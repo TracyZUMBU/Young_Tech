@@ -13,7 +13,7 @@ const UpdateUserProfile = (props) => {
   const { userID } = decode(token);
   // get user's details from userProfile component
   const userDetails = props.userDetails;
-  const phoneRegex = /^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/
+  const phoneRegex = /^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/;
   const [response, setResponse] = useState();
 
   //set the values of the form with userDetails content
@@ -45,7 +45,10 @@ const UpdateUserProfile = (props) => {
           "Veuillez de nouveau saisir votre mot de passe"
         ),
       }),
-      phone: Yup.string().matches(phoneRegex, 'Le format du numéro de téléphone est incorrect'),
+    phone: Yup.string().matches(
+      phoneRegex,
+      "Le format du numéro de téléphone est incorrect"
+    ),
   });
 
   function keepOnlyChangedValues(object1, object2) {
@@ -60,7 +63,6 @@ const UpdateUserProfile = (props) => {
 
   //send new user's details to the BDD
   const onSubmit = async (values, onSubmitProps) => {
-
     keepOnlyChangedValues(initialValues, values);
 
     delete values["repeat_password"];

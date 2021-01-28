@@ -93,7 +93,7 @@ const AdminProfile = () => {
       alert("L'utilisateur n'a pas pu être supprimé")
     }
   };
-
+console.log(users, "user");
   return (
     <>
       <Hero logo={logo} nameUser={"Yo les admins"} />

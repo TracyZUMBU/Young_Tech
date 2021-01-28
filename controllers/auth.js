@@ -25,7 +25,6 @@ module.exports = {
             msg: "Both passwords do not match",
           });
         }
-        //req.hashedPassword = await bcrypt.hash(password, 10);
         next();
       }
     );
